@@ -1,6 +1,6 @@
 
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
-  <a class="navbar-brand" href="{% url 'shop:index' %}">Max Meat</a>
+  <a class="navbar-brand" href="{% url 'shop:index' %}">Maximum Meat</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
@@ -8,9 +8,22 @@
     <div class="navbar-nav">
         {% url 'shop:index' as index %}
         {% url 'shop:about' as about %}
+        {% url 'shop:product_list' as products %}
       <a class="nav-item nav-link {% if request.path == index %} active {% endif %}" href="{% url 'shop:index' %}">Home <span class="sr-only">(current)</span></a>
       <a class="nav-item nav-link {% if request.path == about %} active {% endif %}" href="{% url 'shop:about' %}">About</a>
-      <a class="nav-item nav-link" href="#">Build a Sausage</a>
+      <a class="nav-item nav-link {% if request.path == products %} active {% endif %}" href="{% url 'shop:product_list' %}">Products</a>
     </div>
   </div>
+<div>
+    {% with total_items=cart|length %}
+        {% if cart|length > 0 %}
+        Your cart:
+        <a href="{% url 'cart:cart_detail' %}">
+            {{ total_items }} item{{ total_items|pluralize }}, £{{ cart.get_total_price }}
+        </a>
+        {% else %}
+        Your cart is empty
+        {% endif %}
+    {% endwith %}
+</div>
 </nav>
